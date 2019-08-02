@@ -2,8 +2,10 @@ package ml.combust.mleap
 
 import sbt.Keys._
 import sbt._
+import Dependencies._
 
 object MleapProject {
+
   lazy val aggregatedProjects: Seq[ProjectReference] = Seq(baseProject,
     tensor,
     tensorflow,
@@ -20,6 +22,7 @@ object MleapProject {
     xgboostSpark,
     tensorflow,
     databricksRuntime)
+
 
   var rootSettings = Release.settings ++
     Common.buildSettings ++
@@ -107,6 +110,10 @@ object MleapProject {
     id = "mleap-xgboost-runtime",
     base = file("mleap-xgboost-runtime"),
     dependencies = Seq(runtime)
+  ).settings(
+    Seq(
+      version := s"${(version in ThisBuild).value}_${xgboostVersion}"
+    )
   )
 
   lazy val xgboostSpark = Project(
@@ -116,7 +123,12 @@ object MleapProject {
       xgboostRuntime % "test",
       spark % "test",
       sparkTestkit % "test")
+  ).settings(
+    Seq(
+      version := s"${(version in ThisBuild).value}_${xgboostVersion}"
+    )
   )
+
 
   lazy val serving = Project(
     id = "mleap-serving",
