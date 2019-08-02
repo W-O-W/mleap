@@ -20,3 +20,16 @@ lazy val benchmarks = MleapProject.benchmark
 lazy val databricksRuntimeFat = MleapProject.databricksRuntimeFat
 lazy val databricksRuntime = MleapProject.databricksRuntime
 lazy val databricksRuntimeTestkit = MleapProject.databricksRuntimeTestkit
+
+
+publishMavenStyle := true
+
+publishTo := {
+  val mtdp = "http://pixel.sankuai.com/repository/"
+  if (version.value.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at mtdp + "group-snapshots")
+  else
+    Some("releases"  at mtdp + "group-releases")
+}
+
+credentials += Credentials("${realm}", "${host}", "${username}", "${password}")
